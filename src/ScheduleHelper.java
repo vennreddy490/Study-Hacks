@@ -14,14 +14,6 @@ import java.util.HashMap;
 
 public class ScheduleHelper extends Application {
 
-    int sunClasses = 1;
-    int monClasses = 1;
-    int tueClasses = 1;
-    int wedClasses = 1;
-    int thuClasses = 1;
-    int friClasses = 1;
-    int satClasses = 1;
-
     TimeSlot[] daysOfWeek;
     HashMap<TimeSlot, Integer> numOfClasses;
 
