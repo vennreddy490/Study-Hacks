@@ -7,6 +7,7 @@ public class ScheduleHelper extends Application {
     public void start(Stage stage) {
 
 
+        stage.show();
 
     }
 
