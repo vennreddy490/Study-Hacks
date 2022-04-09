@@ -6,7 +6,7 @@ To-do list:
 - Work on the main method
     - Iron out the final ideas of how we want to implement it
     - Make the method to convert minutes to Integers
-    - Make the fomula to find optimal study times
+    - Make the formula to find optimal study times
     - stuff we talked about earlier
 
 - Work on the javafx implementation
