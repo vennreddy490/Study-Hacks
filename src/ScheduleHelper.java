@@ -10,6 +10,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.util.HashMap;
 
 public class ScheduleHelper extends Application {
 
@@ -21,29 +22,47 @@ public class ScheduleHelper extends Application {
     int friClasses = 1;
     int satClasses = 1;
 
+    TimeSlot[] daysOfWeek;
+    HashMap<TimeSlot, Integer> numOfClasses;
+
+    public ScheduleHelper() {
+        daysOfWeek = new TimeSlot[] {
+                new TimeSlot("Sunday"),
+                new TimeSlot("Monday"),
+                new TimeSlot("Tuesday"),
+                new TimeSlot("Wednesday"),
+                new TimeSlot("Thursday"),
+                new TimeSlot("Friday"),
+                new TimeSlot("Saturday")
+        };
+        numOfClasses = new HashMap<>();
+        initializeHashMap();
+    } // Constructor
+
+    public void initializeHashMap() {
+        for (TimeSlot day : daysOfWeek) {
+            numOfClasses.put(day, 1);
+        } // for
+    } // initializeHashMap
+
     @Override
     public void start(Stage stage) {
 
         // Adding days and coloumns
         VBox root = new VBox();
-        HBox root2 = new HBox();
-        TimeSlot sunday = new TimeSlot("Sunday");
-        TimeSlot monday = new TimeSlot("Monday");
-        TimeSlot tuesday = new TimeSlot("Tuesday");
-        TimeSlot wednesday = new TimeSlot("Wednesday");
-        TimeSlot thursday = new TimeSlot("Thursday");
-        TimeSlot friday = new TimeSlot("Friday");
-        TimeSlot saturday = new TimeSlot("Saturday");
-        root2.getChildren().addAll(sunday, monday, tuesday, wednesday, thursday, friday, saturday);
+        HBox hbox = new HBox();
+        addChildrenToHBox(hbox);
+
         Button load = new Button("Load Schedule");
         load.setAlignment(Pos.BOTTOM_RIGHT);
-  //      saturday.getChildren().add(load);
-        root.getChildren().add(root2);
+
+        root.getChildren().add(hbox);
         root.getChildren().add(load);
 
-
         // Resizing Limits
-        ScheduleHelper.timeSlotGrow(sunday, monday, tuesday, wednesday, thursday, friday, saturday);
+        timeSlotGrows();
+
+        addAddButton();
 
         // Initializing the Scene and displaying it
         Scene scene = new Scene(root);
@@ -52,19 +71,39 @@ public class ScheduleHelper extends Application {
         stage.show();
         stage.setTitle("Schedule Helper");
 
-    }
+    } // start
 
-    public static void timeSlotGrow(TimeSlot... days) {
-        for (TimeSlot day : days) {
+    public void addChildrenToHBox(HBox hbox) {
+        for (TimeSlot day : daysOfWeek) {
+            hbox.getChildren().add(day);
+        } // for
+    } // addChildrenToHBox
+
+    public void timeSlotGrows() {
+        for (TimeSlot day : daysOfWeek) {
             HBox.setHgrow(day, Priority.ALWAYS);
-        }
-    }
+        } // for
+    } // timeSlotGrows
+
+    public void addAddButton() {
+        for (TimeSlot day : daysOfWeek) {
+            Button add = new Button("Add Class");
+            day.getChildren().add(add);
+            add.setOnAction(e -> {
+                day.getChildren().remove(day.getChildren().size() - 1);
+                numOfClasses.put(day, numOfClasses.get(day) + 1);
+                Text className = new Text("Class " + numOfClasses.get(day) + " Time Slot:");
+                TextField field = new TextField();
+                day.getChildren().addAll(className, field, add);
+            });
+        } // for
+    } // addAddButton
 
     public void newClass(TimeSlot day, int dayClassNum) {
         Text addedClass = new Text("Class " + (dayClassNum + 1) + " Time Slot:");
         TextField newClassTime = new TextField();
         day.getChildren().addAll(addedClass, newClassTime);
-    };
+    }
 
     public static void main(String[] args) {
         Application.launch();
