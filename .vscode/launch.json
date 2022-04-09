@@ -6,11 +6,18 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "UGAsian_8d44505c"
+        },
+        {
+            "type": "java",
             "name": "Launch ScheduleHelper",
             "request": "launch",
             "mainClass": "ScheduleHelper",
             "projectName": "UGAsian",
             "vmArgs": "--module-path C:/Users/vennr/Downloads/openjfx-17.0.2_windows-x64_bin-sdk/javafx-sdk-17.0.2/lib --add-modules javafx.controls,javafx.fxml"
-        } 
+        }
     ]
 }
