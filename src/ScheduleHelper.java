@@ -1,3 +1,5 @@
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -47,6 +49,11 @@ public class ScheduleHelper extends Application {
             HBox.setHgrow(day, Priority.ALWAYS);
         }
     }
+
+    EventHandler<ActionEvent> buttonHandler = event -> {
+    System.out.println("Hello");
+    
+    };
 
     public static void main(String[] args) {
         System.out.println(ScheduleCalc.bob);
