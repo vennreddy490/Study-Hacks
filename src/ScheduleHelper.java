@@ -33,7 +33,7 @@ public class ScheduleHelper extends Application {
 
 
         // Resizing Limits
-        ScheduleHelper.TimeSlotGrow(sunday, monday, tuesday, wednesday, thursday, friday, saturday);
+        ScheduleHelper.timeSlotGrow(sunday, monday, tuesday, wednesday, thursday, friday, saturday);
 
         // Initializing the Scene and displaying it
         Scene scene = new Scene(root);
@@ -44,7 +44,7 @@ public class ScheduleHelper extends Application {
 
     }
 
-    public static void TimeSlotGrow(TimeSlot... days) {
+    public static void timeSlotGrow(TimeSlot... days) {
         for (TimeSlot day : days) {
             HBox.setHgrow(day, Priority.ALWAYS);
         }
@@ -56,7 +56,7 @@ public class ScheduleHelper extends Application {
     };
 
     public static void main(String[] args) {
-        ScheduleHelper.launch();
+        Application.launch();
     }
 
 }
