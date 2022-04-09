@@ -1,5 +1,8 @@
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class TimeSlot extends VBox {
@@ -21,6 +24,7 @@ public class TimeSlot extends VBox {
         TextField c6Entry = new TextField();
         Text c7 = new Text("Class 7 Time Slot:");
         TextField c7Entry = new TextField();
+        this.setAlignment(Pos.TOP_CENTER);
         this.getChildren().addAll(dayOfClass, c1, c1Entry, c2, c2Entry,
         c3, c3Entry, c4, c4Entry, c5, c5Entry, c6, c6Entry, c7, c7Entry);
 
