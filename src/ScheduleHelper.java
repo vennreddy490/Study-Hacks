@@ -4,12 +4,22 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class ScheduleHelper extends Application {
+
+    int sunClasses = 1;
+    int monClasses = 1;
+    int tueClasses = 1;
+    int wedClasses = 1;
+    int thuClasses = 1;
+    int friClasses = 1;
+    int satClasses = 1;
 
     @Override
     public void start(Stage stage) {
@@ -50,9 +60,10 @@ public class ScheduleHelper extends Application {
         }
     }
 
-    EventHandler<ActionEvent> buttonHandler = event -> {
-    System.out.println("Hello");
-    
+    public void newClass(TimeSlot day, int dayClassNum) {
+        Text addedClass = new Text("Class " + (dayClassNum + 1) + " Time Slot:");
+        TextField newClassTime = new TextField();
+        day.getChildren().addAll(addedClass, newClassTime);
     };
 
     public static void main(String[] args) {
