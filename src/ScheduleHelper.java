@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -24,7 +25,8 @@ public class ScheduleHelper extends Application {
         TimeSlot saturday = new TimeSlot("Saturday");
         root.getChildren().addAll(sunday, monday, tuesday, wednesday, thursday, friday, saturday);
 
-        
+        // Resizing Limits
+        ScheduleHelper.TimeSlotGrow(sunday, monday, tuesday, wednesday, thursday, friday, saturday);
 
         // Initializing the Scene and displaying it
         Scene scene = new Scene(root);
@@ -32,6 +34,17 @@ public class ScheduleHelper extends Application {
         stage.show();
         stage.setTitle("Schedule Helper");
 
+    }
+
+    public static void TimeSlotGrow(TimeSlot... days) {
+        for (TimeSlot day : days) {
+            HBox.setHgrow(day, Priority.ALWAYS);
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(ScheduleCalc.bob);
+        ScheduleHelper.launch();
     }
 
 }
