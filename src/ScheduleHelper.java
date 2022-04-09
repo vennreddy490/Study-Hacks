@@ -1,5 +1,3 @@
-import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -90,12 +88,6 @@ public class ScheduleHelper extends Application {
             });
         } // for
     } // addAddButton
-
-    public void newClass(TimeSlot day, int dayClassNum) {
-        Text addedClass = new Text("Class " + (dayClassNum + 1) + " Time Slot:");
-        TextField newClassTime = new TextField();
-        day.getChildren().addAll(addedClass, newClassTime);
-    }
 
     public static void main(String[] args) {
         Application.launch();
