@@ -1,18 +1,20 @@
 public class ScheduleCalc {
 
-    private int[] minutesArr;
     private boolean[] busy;
 
     public ScheduleCalc() {
-        minutesArr = new int[1440];
-        for (int i = 0; i < minutesArr.length; i++) {
-            minutesArr[i] = i;
-        } // for
+        busy = new boolean[1440];
     } // Constructor
 
-    public int[] getMinutesArr() {
-        return minutesArr;
-    } // getMinutesArr
+    public boolean[] getBusy() {
+        return busy;
+    } // getBusy
+
+    public void printBusy() {
+        for (int i = 0; i < busy.length; i++) {
+            System.out.println(i + " minutes --> " + busy[i]);
+        } // for
+    } // printBusy
 
     private int getHoursFromTime(String condensedTime) {
         int hours = Integer.parseInt(condensedTime.substring(0, condensedTime.indexOf(':')));
@@ -94,6 +96,12 @@ public class ScheduleCalc {
         } // if-else
         return hours + ":" + formattedMinutes + timeOfDay;
     } // convertMinutesToTime
+
+    public void fillSchedule(int start, int end) {
+        for (int i = start; i < end; i++) {
+            busy[i] = true;
+        } // for
+    } // fillSchedule
 
     // public boolean check50Min(int startRange) {
 

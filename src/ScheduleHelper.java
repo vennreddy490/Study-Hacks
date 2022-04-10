@@ -45,6 +45,8 @@ public class ScheduleHelper extends Application {
 
         Button load = new Button("Load Schedule");
         load.setAlignment(Pos.BOTTOM_RIGHT);
+        loadEvent(load);
+        addButtons();
 
         root.getChildren().add(hbox);
         root.getChildren().add(load);
@@ -52,13 +54,12 @@ public class ScheduleHelper extends Application {
         // Resizing Limits
         timeSlotGrows();
 
-        addButtons();
-
         // Initializing the Scene and displaying it
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setMinHeight(400);
         stage.setMinWidth(905);
+        // stage.setMaxWidth(1200);
         stage.show();
         stage.setTitle("Schedule Helper");
 
@@ -94,9 +95,8 @@ public class ScheduleHelper extends Application {
                 } // if
                 day.getChildren().remove(day.getChildren().size() - 1);
                 numOfClasses.put(day, numOfClasses.get(day) + 1);
-                Text className = new Text("Class " + numOfClasses.get(day) + " Time Slot:");
-                TextField field = new TextField();
-                day.getChildren().addAll(className, field, buttonWrap);
+                day.addNewClass(numOfClasses.get(day));
+                day.getChildren().add(buttonWrap);
             }); // setOnAction
             remove.setOnAction(e -> {
                 day.getChildren().remove(day.getChildren().size() - 2);
@@ -117,6 +117,29 @@ public class ScheduleHelper extends Application {
         button.setMinWidth(60);
         button.setMaxWidth(Double.MAX_VALUE);
     } // setButtonProperties
+
+    public void loadEvent(Button load) {
+        load.setOnAction(e -> {
+            for (TimeSlot day : daysOfWeek) {
+                ScheduleCalc newSchedule = new ScheduleCalc();
+                if (day.getChildren().size() > 3) {
+                    for (int i = 2; i < day.getChildren().size(); i += 2) {
+                        String start = getTextFromTextField(day, i, 0);
+                        String end = getTextFromTextField(day, i, 2);
+                        int startIndex = newSchedule.convertTimeToMinutes(start);
+                        int endIndex = newSchedule.convertTimeToMinutes(end);
+                        newSchedule.fillSchedule(startIndex, endIndex);
+                    } // for
+                } // if
+            } // for
+        }); // setOnAction
+    } // loadEvent
+
+    public String getTextFromTextField(TimeSlot day, int listIndex, int fieldIndex) {
+        HBox timeWrapper = (HBox) day.getChildren().get(listIndex);
+        TextField field = (TextField) timeWrapper.getChildren().get(fieldIndex);
+        return field.getText();
+    } // getTextFieldFromHBox
 
     public static void main(String[] args) {
         Application.launch();
