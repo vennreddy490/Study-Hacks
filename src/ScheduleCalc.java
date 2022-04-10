@@ -1,6 +1,7 @@
 public class ScheduleCalc {
 
     private int[] minutesArr;
+    private boolean[] busy;
 
     public ScheduleCalc() {
         minutesArr = new int[1440];
@@ -93,5 +94,23 @@ public class ScheduleCalc {
         } // if-else
         return hours + ":" + formattedMinutes + timeOfDay;
     } // convertMinutesToTime
+
+    // public boolean check50Min(int startRange) {
+
+    //     boolean uninterruptedTime = false;
+    //     int noClass = 0;
+    //     for (int i = startRange; i < 1440; i++) {
+    //         if (busy[i] == false) {
+    //             noClass++;
+    //         } else {
+    //             noClass = 0;
+    //         }
+    //         if (noClass == 70) {
+    //             this.check50Min(i);
+    //         }
+
+    //     }
+
+    // }
 
 } // ScheduleCalc
