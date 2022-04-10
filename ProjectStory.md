@@ -1,3 +1,5 @@
+### Study-Hacks ###
+
 ## Inspiration
 We were inspired to build Study-Hacks after struggling to adjust to our own schedules for our second semester of college. It's easy for college students to get overwhelmed when they have to balance exams, jobs, clubs, and campus involvement, leading many students to feel stressed, sleep-deprived, and burnt out. Many students, ourselves included, develop routines over the course of the semester - adapting and forming habits that work through trial and error. It's difficult to rework those routines every semester as class periods, meal times, and sleep patterns change  - leading us to make a tool to help students better adjust to their classes and improve their time-management skills.
 
