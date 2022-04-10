@@ -152,4 +152,44 @@ public class ScheduleCalc {
         return availableTimes;
     } // check75Min
 
+    public ArrayList<String> getOptimalStudyBlock(ArrayList<ArrayList<String>> studyBlocks) {
+        final int OPTIMAL_TIME = 900;
+        int timeClosestToOptimalTime = Integer.MAX_VALUE;
+        ArrayList<String> optimalStudyBlock = null;
+        for (ArrayList<String> studyBlock : studyBlocks) {
+            String firstBlock = studyBlock.get(0);
+            String lastBlock = studyBlock.get(studyBlock.size() - 1);
+
+            String begin = firstBlock.substring(0, firstBlock.indexOf('-'));
+            String end = lastBlock.substring(lastBlock.indexOf('-') + 1);
+
+            int beginInt = convertTimeToMinutes(begin);
+            int endInt = convertTimeToMinutes(end);
+            int middleTime = endInt - beginInt;
+            if (Math.abs(beginInt + middleTime - OPTIMAL_TIME) < timeClosestToOptimalTime) {
+                timeClosestToOptimalTime = Math.abs(beginInt + middleTime - OPTIMAL_TIME);
+                optimalStudyBlock = studyBlock;
+            } // if
+        } // for
+
+        return optimalStudyBlock;
+
+        /*
+        String firstBlock = optimalStudyBlock.get(0);
+        String begin = firstBlock.substring(0, firstBlock.indexOf('-'));
+        if (convertTimeToMinutes(begin) > OPTIMAL_TIME) {
+            String secondBlock = optimalStudyBlock.get(1);
+            String end = secondBlock.substring(secondBlock.indexOf('-') + 1);
+            return begin + " to " + end;
+        } else {
+            firstBlock = optimalStudyBlock.get(optimalStudyBlock.size() - 3);
+            String secondBlock = optimalStudyBlock.get(optimalStudyBlock.size() - 2);
+
+            begin = firstBlock.substring(0, firstBlock.indexOf('-'));
+            String end = secondBlock.substring(secondBlock.indexOf('-') + 1);
+            return begin + " to " + end;
+        } // if-else
+        */
+    } // getOptimalStudyBlock
+
 } // ScheduleCalc

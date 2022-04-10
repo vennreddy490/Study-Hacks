@@ -60,6 +60,7 @@ public class ScheduleHelper extends Application {
         stage.setScene(scene);
         stage.setMinHeight(400);
         stage.setMinWidth(1000);
+        stage.sizeToScene();
         stage.show();
         stage.setTitle("Schedule Helper");
 
@@ -103,7 +104,7 @@ public class ScheduleHelper extends Application {
                 day.getChildren().remove(day.getChildren().size() - 2);
                 numOfActivities.put(day, numOfActivities.get(day) - 1);
                 if (day.getChildren().size() == 2) {
-                    Text noClasses = new Text("No Classes Today");
+                    Text noClasses = new Text("No Activities Today");
                     day.getChildren().remove(day.getChildren().size() - 1);
                     day.getChildren().addAll(noClasses, buttonWrap);
                     remove.setDisable(true);
@@ -120,8 +121,6 @@ public class ScheduleHelper extends Application {
 
     public void loadEvent(Button load) {
         load.setOnAction(e -> {
-            ArrayList<ArrayList<ArrayList<String>>> availableTimes = new ArrayList<>();
-            ArrayList<String> validDays = new ArrayList<>();
             for (TimeSlot day : daysOfWeek) {
                 ScheduleCalc newSchedule = new ScheduleCalc();
                 if (day.getChildren().size() > 3) {
@@ -132,14 +131,9 @@ public class ScheduleHelper extends Application {
                         int endIndex = newSchedule.convertTimeToMinutes(end);
                         newSchedule.fillSchedule(startIndex, endIndex);
                     } // for
-                } // if
-                if (numOfActivities.get(day) > 0) {
-                    availableTimes.add(newSchedule.check75Min());
-                    validDays.add(day.getDay());
+                    System.out.println(newSchedule.getOptimalStudyBlock(newSchedule.check75Min()));
                 } // if
             } // for
-            System.out.println(validDays);
-            printPotentialStudyBlocks(availableTimes, validDays);
         }); // setOnAction
     } // loadEvent
 
@@ -157,7 +151,7 @@ public class ScheduleHelper extends Application {
                 output += "\t\t[\n";
                 for (String time : studyBlock) {
                     output += "\t\t\tStudyBlock " + count++ + ": " + time + "\n";
-                }
+                } // for
                 output += "\t\t]\n";
                 count = 1;
             } // for
