@@ -10,6 +10,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.ArrayList;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 public class ScheduleHelper extends Application {
 
@@ -121,8 +123,17 @@ public class ScheduleHelper extends Application {
 
     public void loadEvent(Button load) {
         load.setOnAction(e -> {
+            Text studyBlock = new Text("Study Block");
+            studyBlock.setFont(new Font(35));
+            HBox daysRoot = new HBox(10);
+            daysRoot.setAlignment(Pos.TOP_CENTER);
+            VBox root = new VBox(studyBlock, daysRoot);
+            root.setAlignment(Pos.TOP_CENTER);
             for (TimeSlot day : daysOfWeek) {
                 ScheduleCalc newSchedule = new ScheduleCalc();
+                VBox vbox = createDayVBox(day.getDay());
+                HBox.setHgrow(vbox, Priority.ALWAYS);
+                vbox.setAlignment(Pos.TOP_CENTER);
                 if (day.getChildren().size() > 3) {
                     for (int i = 2; i < day.getChildren().size(); i += 2) {
                         String start = getTextFromTextField(day, i, 0);
@@ -131,11 +142,28 @@ public class ScheduleHelper extends Application {
                         int endIndex = newSchedule.convertTimeToMinutes(end);
                         newSchedule.fillSchedule(startIndex, endIndex);
                     } // for
-                    System.out.println(newSchedule.getOptimalStudyBlock(newSchedule.check75Min()));
+                    ArrayList<String> optimalStudyBlock = newSchedule.getOptimalStudyBlock(newSchedule.check75Min());
+                    for (String time : optimalStudyBlock) {
+                        Text potentialTime = new Text(time);
+                        potentialTime.setFont(new Font(15));
+                        vbox.getChildren().add(potentialTime);
+                    } // for
                 } // if
+                daysRoot.getChildren().add(vbox);
             } // for
+            Scene sceneResult = new Scene(root);
+            Stage stageResult = new Stage();
+            stageResult.setMinWidth(750);
+            stageResult.setScene(sceneResult);
+            stageResult.show();
         }); // setOnAction
     } // loadEvent
+
+    public VBox createDayVBox(String day) {
+        Text dayText = new Text(day);
+        dayText.setFont(new Font(20));
+        return new VBox(dayText);
+    } // createDayVBox
 
     public void printPotentialStudyBlocks(ArrayList<ArrayList<ArrayList<String>>> availableTimes,
             ArrayList<String> validDays) {
