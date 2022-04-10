@@ -9,7 +9,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.HashMap;
-import javafx.scene.control.Alert;
 
 public class ScheduleHelper extends Application {
 
