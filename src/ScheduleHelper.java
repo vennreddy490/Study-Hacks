@@ -9,11 +9,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class ScheduleHelper extends Application {
 
     TimeSlot[] daysOfWeek;
-    HashMap<TimeSlot, Integer> numOfClasses;
+    HashMap<TimeSlot, Integer> numOfActivities;
 
     public ScheduleHelper() {
         daysOfWeek = new TimeSlot[] {
@@ -25,13 +26,13 @@ public class ScheduleHelper extends Application {
                 new TimeSlot("Friday"),
                 new TimeSlot("Saturday")
         };
-        numOfClasses = new HashMap<>();
+        numOfActivities = new HashMap<>();
         initializeHashMap();
     } // Constructor
 
     public void initializeHashMap() {
         for (TimeSlot day : daysOfWeek) {
-            numOfClasses.put(day, 1);
+            numOfActivities.put(day, 1);
         } // for
     } // initializeHashMap
 
@@ -58,8 +59,7 @@ public class ScheduleHelper extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setMinHeight(400);
-        stage.setMinWidth(905);
-        // stage.setMaxWidth(1200);
+        stage.setMinWidth(1000);
         stage.show();
         stage.setTitle("Schedule Helper");
 
@@ -89,19 +89,19 @@ public class ScheduleHelper extends Application {
             day.getChildren().add(buttonWrap);
 
             add.setOnAction(e -> {
-                if (numOfClasses.get(day) == 0) {
+                if (numOfActivities.get(day) == 0) {
                     day.getChildren().remove(day.getChildren().size() - 1);
                     remove.setDisable(false);
                 } // if
                 day.getChildren().remove(day.getChildren().size() - 1);
-                numOfClasses.put(day, numOfClasses.get(day) + 1);
-                day.addNewClass(numOfClasses.get(day));
+                numOfActivities.put(day, numOfActivities.get(day) + 1);
+                day.addNewActivity(numOfActivities.get(day));
                 day.getChildren().add(buttonWrap);
             }); // setOnAction
             remove.setOnAction(e -> {
                 day.getChildren().remove(day.getChildren().size() - 2);
                 day.getChildren().remove(day.getChildren().size() - 2);
-                numOfClasses.put(day, numOfClasses.get(day) - 1);
+                numOfActivities.put(day, numOfActivities.get(day) - 1);
                 if (day.getChildren().size() == 2) {
                     Text noClasses = new Text("No Classes Today");
                     day.getChildren().remove(day.getChildren().size() - 1);
@@ -120,6 +120,8 @@ public class ScheduleHelper extends Application {
 
     public void loadEvent(Button load) {
         load.setOnAction(e -> {
+            ArrayList<ArrayList<ArrayList<String>>> availableTimes = new ArrayList<>();
+            ArrayList<String> validDays = new ArrayList<>();
             for (TimeSlot day : daysOfWeek) {
                 ScheduleCalc newSchedule = new ScheduleCalc();
                 if (day.getChildren().size() > 3) {
@@ -131,9 +133,39 @@ public class ScheduleHelper extends Application {
                         newSchedule.fillSchedule(startIndex, endIndex);
                     } // for
                 } // if
+                if (numOfActivities.get(day) > 0) {
+                    availableTimes.add(newSchedule.check75Min());
+                    validDays.add(day.getDay());
+                } // if
             } // for
+            System.out.println(validDays);
+            printPotentialStudyBlocks(availableTimes, validDays);
         }); // setOnAction
     } // loadEvent
+
+    public void printPotentialStudyBlocks(ArrayList<ArrayList<ArrayList<String>>> availableTimes,
+            ArrayList<String> validDays) {
+        String output = "[\n";
+        int validDaysIndex = 0;
+        for (ArrayList<ArrayList<String>> totalStudyBlocks : availableTimes) {
+            int count = 1;
+            output += "------------------------------------------------------------ "
+                    + validDays.get(validDaysIndex++)
+                    + " ------------------------------------------------------------\n";
+            output += "\t[\n";
+            for (ArrayList<String> studyBlock : totalStudyBlocks) {
+                output += "\t\t[\n";
+                for (String time : studyBlock) {
+                    output += "\t\t\tStudyBlock " + count++ + ": " + time + "\n";
+                }
+                output += "\t\t]\n";
+                count = 1;
+            } // for
+            output += "\t]\n";
+        } // for
+        output += "]";
+        System.out.println(output);
+    } // potentialStudyBlocks
 
     public String getTextFromTextField(TimeSlot day, int listIndex, int fieldIndex) {
         HBox timeWrapper = (HBox) day.getChildren().get(listIndex);

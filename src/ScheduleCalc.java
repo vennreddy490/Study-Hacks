@@ -1,9 +1,19 @@
+import java.util.ArrayList;
+
 public class ScheduleCalc {
 
     private boolean[] busy;
+    private static final int WAKEUP = 480;
+    private static final int BEDTIME = 1320;
 
     public ScheduleCalc() {
         busy = new boolean[1440];
+        for (int i = BEDTIME; i < 1440; i++) {
+            busy[i] = true;
+        } // for
+        for (int i = 0; i < WAKEUP; i++) {
+            busy[i] = true;
+        } // for
     } // Constructor
 
     public boolean[] getBusy() {
@@ -103,22 +113,43 @@ public class ScheduleCalc {
         } // for
     } // fillSchedule
 
-    // public boolean check50Min(int startRange) {
+    public ArrayList<ArrayList<String>> check75Min() {
+        int noClass = 0;
+        final int STUDY_TIME = 25;
+        final int BREAK_TIME = 5;
+        final int FLEX_TIME = 10;
+        ArrayList<ArrayList<String>> availableTimes = new ArrayList<>();
+        for (int i = WAKEUP; i <= BEDTIME; i++) {
+            if (!busy[i]) {
+                noClass++;
+            } else {
+                if (noClass >= (FLEX_TIME * 2) + (STUDY_TIME * 2) + BREAK_TIME) {
+                    ArrayList<String> studyBlocks = new ArrayList<>();
+                    int startOfFreeTime = i - noClass + FLEX_TIME;
+                    int endOfFreeTime = i - FLEX_TIME;
+                    int numOfStudyBlocks = (endOfFreeTime - startOfFreeTime) / (BREAK_TIME + STUDY_TIME);
 
-    //     boolean uninterruptedTime = false;
-    //     int noClass = 0;
-    //     for (int i = startRange; i < 1440; i++) {
-    //         if (busy[i] == false) {
-    //             noClass++;
-    //         } else {
-    //             noClass = 0;
-    //         }
-    //         if (noClass == 70) {
-    //             this.check50Min(i);
-    //         }
+                    int nextStartOfStudyBlock = startOfFreeTime;
+                    for (int j = 0; j < numOfStudyBlocks; j++) {
+                        String startOfStudyBlock = convertMinutesToTime(nextStartOfStudyBlock);
+                        String startOfBreak = convertMinutesToTime(nextStartOfStudyBlock + STUDY_TIME);
+                        String studyBlock = startOfStudyBlock + "-" + startOfBreak;
+                        studyBlocks.add(studyBlock);
+                        nextStartOfStudyBlock += (BREAK_TIME + STUDY_TIME);
+                    } // for
+                    
+                    int remainingTime = (endOfFreeTime - startOfFreeTime) % (BREAK_TIME + STUDY_TIME);
+                    String lastStartOfStudyBlock = convertMinutesToTime(nextStartOfStudyBlock);
+                    String endOfLastStudyBlock = convertMinutesToTime(nextStartOfStudyBlock + remainingTime);
+                    String lastStudyBlock = lastStartOfStudyBlock + "-" + endOfLastStudyBlock;
+                    studyBlocks.add(lastStudyBlock);
 
-    //     }
-
-    // }
+                    availableTimes.add(studyBlocks);
+                } // if
+                noClass = 0;
+            } // if-else
+        } // for
+        return availableTimes;
+    } // check75Min
 
 } // ScheduleCalc

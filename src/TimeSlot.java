@@ -7,18 +7,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 
 public class TimeSlot extends VBox {
+
+    private String day;
     
     public TimeSlot(String day) {
         super();
+        this.day = day;
         Text dayOfClass = new Text(day);
         dayOfClass.setFont(new Font(20));
         this.setAlignment(Pos.TOP_CENTER);
         this.getChildren().add(dayOfClass);
-        addNewClass(1);
+        addNewActivity(1);
     }
 
-    public void addNewClass(int classNum) {
-        String text = "Class " + classNum + " Time Slot:";
+    public void addNewActivity(int activityNum) {
+        String text = "Activity " + activityNum + " Time Slot:";
         Text classText = new Text(text);
         classText.setFont(new Font(15));
         Text hyphen = new Text("—");
@@ -35,4 +38,8 @@ public class TimeSlot extends VBox {
         timeWrap.setAlignment(Pos.BASELINE_CENTER);
         this.getChildren().addAll(classText, timeWrap);
     } // addNewClass
+
+    public String getDay() {
+        return day;
+    } // getDay
 } // TimeSlot
