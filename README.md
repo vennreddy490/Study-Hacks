@@ -12,3 +12,7 @@ To-do list:
 - Work on the javafx implementation
     - Get JavaFX working
     - Code JavaFX frontend
+
+Plans for the future:
+    - Work on edge cases: 
+        - The case where someone has an event that starts late one night and rolls over into the next night
