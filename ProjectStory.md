@@ -5,30 +5,21 @@ We were inspired to build Study-Hacks after struggling to adjust to our own sche
 Study-Hacks allows students to create schedules that work for them, using techniques meant to help students learn effectively and efficiently. It generates blocks of time around classes, meal-times, and other activities where students should study while blocking off time for proper sleep. These "study blocks" utilize the Pomodoro technique: studying for 25 minutes, followed a 5 minute break, then repeating, in order to help students get the most out of their study time. 
 
 ## How we built it
-- JavaFX: frontEnd
-- Java: backEnd
-- Git: to do collaboration
-- Utiltized a lot of JAVAFX API documentation
+We started building Study-Hacks by setting up Git and JavaFX configurations for vscode. First, we used JavaFX to slowly build modular components of the GUI, from a simple display with a set number of events to a dynamic display that could add and delete components. Then, we worked on the formula to actually generate the blocks of study time. This was the bulk of the back-end development, and was split into three sections: 
+1) Transferring the event times from the GUI to our internal schedule calculator class
+2) Identifying what times were available for studying
+3) Generating valid blocks of study time using the Pomodor Technique Formula.
+
+After coding the main backend of the project, we returned to JavaFX to create an additional display for our program's output, in order to fully wrap the program in a graphical interface. Throughout the entire project, we utilized Github to work on our code collaboratively, and freuented the API for the many JavaFX components we used because we started with limited JavaFX knowledge. 
 
 ## Challenges we ran into
-- getting and configuring javafx to work properly on vscode
-- managing scene graphs for dozens of components
-- making the program dynamic - adding and removing events and activites required us to greatly restructure our scene graph
-- Creating the formula to generate study blocks without leading to time-conflicts, and storing them properly
-- Managing ambition within the scope of time
+The biggest challenge was getting off the ground: we had only used javafx on our university's departmental server, so properly configurating JavaFX to work on vscode took a lot of time. Additionally, it took some time to properly set up Github to work collaboratively, as this was one of our members' first major collaborative project. Another challenge was managing the scene graph for dozens of components. We had to often rework components within JavaFX and retroactively group components, making it difficult to keep our project organized. Updating our display to be dynamic also became a major challenge, as adding and removing components required us to significantly restructure our scene graph. Lastly, managing our ambition for the project within the time limit also presented a challenge. This is our first project ever using JavaFX, and so it was difficult to gauge how many features we wanted to implement and which features we wanted to add. 
 
 ## Accomplishments that we're proud of
-- managed to better learn and use javaFX with limited starting knowledge
-- actually signed up for a Hackathon 
-- working collaboratively and learning github
+The accomplishment that we are most proud of is managing to learn and use JavaFX to the degree we did when starting with limited JavaFX knowledge. It was very difficult to code a GUI for the program, but extremely satisfying to know that all of our work scouring the API documentation for all of the components we used paid off. Secondly, we're proud of how we were able to work as a team and improve our understanding of github, since communicating and sharing our ideas led us to build a much better project. Finally, we're proud that we got ourselves to sign up for a Hackathon and submit a project. We tried to challenge ourselves with our project, and completing it in the end was a huge achievement.
 
 ## What we learned
-- A lot more about JavaFX
-- using git to code collaboratively
-- Study effectively (we researched best ways to study)
-- challenges of working in a team
+We learned a significant amount of JavaFX by reading the API documentation and implementing a large variety of JavaFX components in our GUI. Additionally, we learned how to use git to code collaboratively, and the importance of using git to "divide and conquer" large scale projects to finish them efficiently. Lastly, we learned about the challenges of working in a team, and how important communication is for developing programs -- helping each other figure out problems and trading ideas for challenges we encountered allowed us to see how the other programmed and solve our problems faster. 
 
 ## What's next for Study-Hacks
-- error handling and managing edge cases
-- improving the GUI to look nicer
-- Potentially moving it to a website so people from anywhere can use it. 
+In the future, we want to improve the GUI to have a nice design and be more user friendly. Additionally, we want to move it to a website so that people from anywhere could use the program, improving its accessbility. Finally, we want to increase our error handling to fix minor bugs and mange edge cases in order to make the program as user-friendly as possible. 
