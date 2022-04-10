@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.HashMap;
+import javafx.scene.control.Alert;
 
 public class ScheduleHelper extends Application {
 
@@ -40,7 +41,7 @@ public class ScheduleHelper extends Application {
 
         // Adding days and coloumns
         VBox root = new VBox();
-        HBox hbox = new HBox();
+        HBox hbox = new HBox(7.5);
         addChildrenToHBox(hbox);
 
         Button load = new Button("Load Schedule");
@@ -52,12 +53,13 @@ public class ScheduleHelper extends Application {
         // Resizing Limits
         timeSlotGrows();
 
-        addAddButton();
+        addButtons();
 
         // Initializing the Scene and displaying it
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setMinHeight(400);
+        stage.setMinWidth(905);
         stage.show();
         stage.setTitle("Schedule Helper");
 
@@ -75,19 +77,47 @@ public class ScheduleHelper extends Application {
         } // for
     } // timeSlotGrows
 
-    public void addAddButton() {
+    public void addButtons() {
         for (TimeSlot day : daysOfWeek) {
-            Button add = new Button("Add Class");
-            day.getChildren().add(add);
+            Button add = new Button("Add");
+            Button remove = new Button("Remove");
+            setButtonProperties(add);
+            setButtonProperties(remove);
+
+            HBox buttonWrap = new HBox(add, remove);
+            buttonWrap.setAlignment(Pos.CENTER);
+            day.getChildren().add(buttonWrap);
+
             add.setOnAction(e -> {
+                if (numOfClasses.get(day) == 0) {
+                    day.getChildren().remove(day.getChildren().size() - 1);
+                    remove.setDisable(false);
+                } // if
                 day.getChildren().remove(day.getChildren().size() - 1);
                 numOfClasses.put(day, numOfClasses.get(day) + 1);
                 Text className = new Text("Class " + numOfClasses.get(day) + " Time Slot:");
                 TextField field = new TextField();
-                day.getChildren().addAll(className, field, add);
-            });
+                day.getChildren().addAll(className, field, buttonWrap);
+            }); // setOnAction
+            remove.setOnAction(e -> {
+                day.getChildren().remove(day.getChildren().size() - 2);
+                day.getChildren().remove(day.getChildren().size() - 2);
+                numOfClasses.put(day, numOfClasses.get(day) - 1);
+                if (day.getChildren().size() == 2) {
+                    Text noClasses = new Text("No Classes Today");
+                    day.getChildren().remove(day.getChildren().size() - 1);
+                    day.getChildren().addAll(noClasses, buttonWrap);
+                    remove.setDisable(true);
+                } // if
+            }); // setOnAction
         } // for
     } // addAddButton
+
+    public void setButtonProperties(Button button) {
+        HBox.setHgrow(button, Priority.ALWAYS);
+        button.setMinWidth(60);
+        button.setMaxWidth(Double.MAX_VALUE);
+    } // setButtonProperties
 
     public static void main(String[] args) {
         Application.launch();
